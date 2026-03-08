@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Video Preview</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="main-container">
+
+<div class="card">
+
+<h2>{{ title }}</h2>
+
+<video controls width="100%">
+<source src="{{ video_url }}" type="video/mp4">
+</video>
+
+<form action="/download" method="POST">
+
+<input type="hidden" name="video_url" value="{{ video_url }}">
+
+<button type="submit">
+Download MP4
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+</html>

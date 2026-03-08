@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InstaSave - Video Downloader</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="main-container">
+
+<div class="card">
+
+<h1>📥 Video Downloader</h1>
+
+<p class="subtitle">
+Download Instagram Reels or YouTube Videos
+</p>
+
+<!-- INSTAGRAM -->
+
+<h3>Instagram</h3>
+
+<form action="/preview" method="POST">
+
+<input
+type="text"
+name="url"
+placeholder="Paste Instagram Reel link..."
+required
+>
+
+<button type="submit" onclick="showSpinner()">
+Preview Video
+</button>
+
+<div id="spinner" class="spinner"></div>
+
+</form>
+
+<hr style="margin:30px 0;">
+
+
+<!-- YOUTUBE -->
+
+<h3>YouTube</h3>
+
+<form action="/youtube_preview" method="POST">
+
+<input
+type="text"
+name="yt_url"
+placeholder="Paste YouTube video link..."
+required
+>
+
+<button type="submit" onclick="showSpinner()">
+Preview Video
+</button>
+
+<div id="spinner" class="spinner"></div>
+
+</form>
+
+</div>
+
+<footer>
+<p>Built with ❤️ using Flask</p>
+</footer>
+
+</div>
+
+<script>
+
+function showSpinner(){
+document.getElementById("spinner").style.display="block";
+}
+
+</script>
+
+</body>
+</html>
