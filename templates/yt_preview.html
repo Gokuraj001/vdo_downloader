@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>YouTube Preview</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="main-container">
+
+<div class="card">
+
+<h2>{{ title }}</h2>
+
+<h3>Select Quality</h3>
+
+{% for f in formats %}
+
+<form action="/download_youtube" method="POST">
+
+<input type="hidden" name="url" value="{{ url }}">
+<input type="hidden" name="format_id" value="{{ f.format_id }}">
+
+<button type="submit">
+Download {{ f.resolution }}
+</button>
+
+</form>
+
+<br>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+
+</html>

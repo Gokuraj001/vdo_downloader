@@ -49,34 +49,51 @@ def youtube_preview():
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=False)
 
-    video_url = info["url"]
-    title = info.get("title", "YouTube Video")
+    title = info.get("title")
+
+    formats = []
+
+    for f in info["formats"]:
+        if f.get("height") and f.get("ext") == "mp4":
+            formats.append({
+                "format_id": f["format_id"],
+                "resolution": f"{f['height']}p"
+            })
 
     return render_template(
-        "preview.html",
-        video_url=video_url,
-        title=title
+        "yt_preview.html",
+        title=title,
+        formats=formats,
+        url=url
     )
 
 
 # DOWNLOAD VIDEO
-@app.route("/download", methods=["POST"])
-def download():
+@app.route("/download_youtube", methods=["POST"])
+def download_youtube():
 
-    video_url = request.form["video_url"]
+    url = request.form["url"]
+    format_id = request.form["format_id"]
 
     filename = str(uuid.uuid4()) + ".mp4"
 
     ydl_opts = {
-        "format": "best",
+        "format": format_id,
         "outtmpl": filename,
         "quiet": True
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([video_url])
+        ydl.download([url])
 
     response = send_file(filename, as_attachment=True)
+
+    @response.call_on_close
+    def cleanup():
+        if os.path.exists(filename):
+            os.remove(filename)
+
+    return response
 
     @response.call_on_close
     def cleanup():
